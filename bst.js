@@ -64,7 +64,7 @@ class BinarySearchTree {
             if (node.left == null) return node.right;
             if (node.right == null) return node.left;
             let t = node;
-            node = this.min(t.right);
+            node = this._min(t.right);
             node.right = this._deleteMin(t.right);
             node.left = t.left;
         }
