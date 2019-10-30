@@ -18,8 +18,9 @@ let convexHull = function(P) {
     let n = P.length;
     let intermediateSteps = []; // Used for the animation.
 
-    // Sort the points by x-coordinate, resulting in a sequence p1, p2, ...,pn.
-    P.sort(function(a,b) { return a.x < b.x ? -1 : 1; });
+    // Sort the points by lexicographical order on the x-coordinate 
+    // and y-coordinate, resulting in a sequence p1, p2, ...,pn.
+    P.sort(function(a,b) { return a.x - b.x || a.y - b.y; });
 
     // Put the points p1 and p2 in a list L_upper, with p1 as the first point.
     let L_upper = [P[0], P[1]];
