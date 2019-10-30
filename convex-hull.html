@@ -9,7 +9,8 @@
     </head>
     <body>
         <h1>Convex Hull</h1>
-        <p>The convex hull $\mathcal{CH}(P)$ of a set of points $P$ is the convex polygon that contains all the points $P$.</p>
+        <p>The convex hull $\mathcal{CH}(P)$ of a set of points $P$ is the convex polygon that contains all the points $P$. <br/>
+        The algorithm described on this page is commonly known as <i>Graham's scan</i>.</p>
 
         <h2>Demo</h2>
         <p>
@@ -74,6 +75,7 @@
         let P = [];
         
         let canvas = new Draw('canvas', fullScreen = false, width = 700, height = 600);
+        canvas.flip = true;
         let scale = canvas.height * 0.6;
         let translation = new Point(canvas.width / 2 - scale / 2, canvas.height / 2 - scale / 2);
 

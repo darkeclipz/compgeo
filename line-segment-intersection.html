@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Computational Geometry -- Line Segment Intersection</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> 
+        <style>
+            body { margin: 0; padding: 0; max-width: 700px; margin: auto; margin-bottom: 60px; font-family: 'Roboto', sans-serif; }
+        </style>
+    </head>
+    <body>
+        <h1>Line Segment Intersection</h1>
+        <p>Add a description.</p>
+
+        <h2>Demo</h2>
+        <p>
+            Add a demo.
+        </p>
+        
+        <canvas id="canvas"></canvas>
+    </body>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/x-mathjax-config">
+        // Use $ for inline equations.
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });
+    </script>
+    <script type="text/javascript" src="generate.js".js"></script>
+    <script type="text/javascript" src="point.js"></script>
+    <script type="text/javascript" src="line-segment.js"></script>
+    <script type="text/javascript" src="line-segment-intersection.js"></script>
+    <script type="text/javascript" src="bst.js"></script>
+    <script type="text/javascript" src="draw.js".js"></script>
+
+    <script type="text/javascript">
+        let N = 20;
+        let S = [];
+        
+        let canvas = new Draw('canvas', fullScreen = false, width = 700, height = 600);
+        let scale = canvas.height * 0.9;
+        let translation = new Point(canvas.width / 2 - scale / 2, canvas.height / 2 - scale / 2);
+
+        for(let i = 0; i < N; i++) {
+            let p1 = randomPoint().scale(scale).add(translation);
+            let p2 = randomPoint().scale(scale).add(translation);
+            let seg = new LineSegment(p1, p2);
+            console.log(seg);
+            S.push(seg);
+        }
+
+        let I = findIntersections(S);
+        let frame = 0;
+
+        let draw = function() {
+
+            frame++;
+            canvas.clear();
+
+            // Draw all the line segments
+            for(let i = 0; i < N; i++) {
+                canvas.drawLineSegment(S[i]);
+            }
+
+            if(frame < I.length) {
+                let p = I[frame];
+                canvas.drawLine(new Point(0, p.y), new Point(canvas.width, p.y));
+                setTimeout(() => draw(), 200);
+            }
+            else {
+                frame = 0;
+
+                // Generate new line segments
+                S = [];
+                for(let i = 0; i < N; i++) {
+                    let p1 = randomPoint().scale(scale).add(translation);
+                    let p2 = randomPoint().scale(scale).add(translation);
+                    let seg = new LineSegment(p1, p2);
+                    S.push(seg);
+                }
+                I = findIntersections(S);
+
+                setTimeout(() => draw(), 2000);
+            }          
+
+        }
+
+        draw();
+
+        console.log(I);
+    </script>
+</html>
