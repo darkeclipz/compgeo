@@ -17,7 +17,8 @@
 
         <h2>Demo</h2>
         <p>
-            A breath-first search method is used on the BST to create the image below.
+            A depth-first search method is used on the BST to create the image below. The example contains $N=1000$ values, which are sorted
+            when they are inserted into the tree. Refresh the page to create a new random tree.
         </p>
         
         <canvas id="canvas"></canvas>
@@ -56,7 +57,7 @@
 
         // Depth first search to retrieve all the nodes from the
         // binary search tree (BST).
-        console.log('Depth First Order for BST')
+        
         let depth = 0;
         let c = canvas.width / 2; // center of the graph plot (position of the root node)
         let w = 320; // initial width we take for n-depth.
@@ -70,6 +71,7 @@
             let element = stack.pop();
             let node = element.node;
             let depth = element.depth;
+            node.depth = depth;
             
             if(node.right != null) {
                 let se = new StackElement(node.right);
@@ -101,7 +103,14 @@
 
         }
 
-        console.log(root);
+        let DFO = [];
+        for(let p of DepthFirstOrder(bst)) {
+            DFO.push(p).value;
+        }
+
+        console.log('BST(root)', root);
+        console.log('Depth First Order', DFO);
+        
 
     </script>
 </html>

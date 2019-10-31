@@ -98,3 +98,12 @@ class Node {
     }
 }
 
+let DepthFirstOrder = function* (BST) {
+    let stack = [BST.root];
+    while(stack.length > 0) {
+        let node = stack.pop();
+        if(node.right != null) stack.push(node.right);
+        if(node.left != null) stack.push(node.left);
+        yield node;
+    }
+}
