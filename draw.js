@@ -69,6 +69,17 @@ class Draw {
         this.drawPoint(seg.p2);
     }
 
+    drawText(text, p) {
+        this.ctx.textAlign = "center";
+        this.ctx.font = "10px Roboto";
+        if(this.flip) {
+            this.ctx.fillText(text, p.x, this.canvas.height - p.y);
+        }
+        else {
+            this.ctx.fillText(text, p.x, p.y);
+        }
+    }
+
     clear() {
         this.ctx.fillStyle = this.style.backgroundColor;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);

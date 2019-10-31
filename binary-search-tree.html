@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Computational Geometry -- Binary Search Tree</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> 
+        <style>
+            body { margin: 0; padding: 0; max-width: 700px; margin: auto; margin-bottom: 60px; font-family: 'Roboto', sans-serif; }
+        </style>
+    </head>
+    <body>
+        <h1>Binary Search Tree</h1>
+        <p>Add a description.</p>
+
+        <h2>Demo</h2>
+        <p>
+            Add a demo.
+        </p>
+        
+        <canvas id="canvas"></canvas>
+    </body>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/x-mathjax-config">
+        // Use $ for inline equations.
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });
+    </script>
+    <script type="text/javascript" src="generate.js".js"></script>
+    <script type="text/javascript" src="point.js"></script>
+    <script type="text/javascript" src="line-segment.js"></script>
+    <script type="text/javascript" src="bst.js"></script>
+    <script type="text/javascript" src="draw.js".js"></script>
+
+    <script type="text/javascript">
+        class StackElement {
+            node;
+            depth = 0;
+            posX = 0;
+
+            constructor(node) {
+                this.node = node;
+            }
+        }
+        
+        let N = 1000;
+        let canvas = new Draw('canvas', fullScreen = false, width = 700, height = 600);
+        let bst = new BinarySearchTree();
+        bst.compare = function(a, b) { return a - b };
+        for(var i = 0; i < N; i++) {
+            bst.put(Math.random(), "Node " + (i + 1));
+        }
+
+        // Depth first search to retrieve all the nodes from the
+        // binary search tree (BST).
+        console.log('Depth First Order for BST')
+        let depth = 0;
+        let c = canvas.width / 2; // center of the graph plot (position of the root node)
+        let w = 320; // initial width we take for n-depth.
+        let d = 2; // base for which w becomes smaller, currently its 2^depth.
+        let root = new StackElement(bst.root);
+        root.posX = c;
+        stack = [root];
+
+        while(stack.length > 0) {
+
+            let element = stack.pop();
+            let node = element.node;
+            let depth = element.depth;
+            
+            if(node.right != null) {
+                let se = new StackElement(node.right);
+                se.depth = element.depth + 1;
+                se.posX = element.posX + w / Math.pow(d, se.depth);
+                let p1 = new Point(element.posX, (element.depth + 1) * 30);
+                let p2 = new Point(se.posX, (element.depth + 2) * 30);
+                canvas.drawLine(p1, p2);
+                stack.push(se);
+            }
+
+            if(node.left != null) {
+                let se = new StackElement(node.left);
+                se.depth = element.depth + 1
+                se.posX = element.posX - w / Math.pow(d, se.depth);
+                let p1 = new Point(element.posX, (element.depth + 1) * 30);
+                let p2 = new Point(se.posX, (element.depth + 2) * 30);
+                canvas.drawLine(p1, p2);
+                stack.push(se);
+            }
+
+            let p = new Point(element.posX, (element.depth + 1) * 30);
+
+            canvas.style.pointSize = Math.max(9 - element.depth, 1);
+            canvas.drawPoint(p);
+
+            if(element.depth < 5)
+                canvas.drawText(node.key.toFixed(2), new Point(p.x, p.y - 10));
+
+        }
+
+        console.log(root);
+
+    </script>
+</html>
